@@ -6,18 +6,14 @@ import org.openjdk.jmh.annotations.Mode
 import org.openjdk.jmh.annotations.OutputTimeUnit
 import java.util.concurrent.TimeUnit
 
-class FastUtilObjectArrayBenchmarks {
+open class FastUtilObjectArrayBenchmarks {
 
     @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun sequentialAccessViaForEach() {
-
-    }
-    @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun sequentialAccessViaIterator() {
+    fun sequentialAccess() {
 
     }
     @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun randomAccessViaSubscript() {
+    fun randomAccess() {
 
     }
 }

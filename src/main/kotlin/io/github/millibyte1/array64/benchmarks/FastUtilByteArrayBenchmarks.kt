@@ -6,7 +6,7 @@ import org.openjdk.jmh.annotations.Mode
 import org.openjdk.jmh.annotations.OutputTimeUnit
 import java.util.concurrent.TimeUnit
 
-class FastUtilByteArrayBenchmarks {
+open class FastUtilByteArrayBenchmarks {
 
     @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun sequentialAccess() {

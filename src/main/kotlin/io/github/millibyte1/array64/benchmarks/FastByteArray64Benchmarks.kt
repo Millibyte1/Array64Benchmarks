@@ -1,23 +1,39 @@
 package io.github.millibyte1.array64.benchmarks
 
-import org.openjdk.jmh.annotations.Benchmark
-import org.openjdk.jmh.annotations.BenchmarkMode
-import org.openjdk.jmh.annotations.Mode
-import org.openjdk.jmh.annotations.OutputTimeUnit
+import io.github.millibyte1.array64.FastByteArray64
+
+import org.openjdk.jmh.annotations.*
+import org.openjdk.jmh.infra.Blackhole
 import java.util.concurrent.TimeUnit
 
-class FastByteArray64Benchmarks {
+import kotlin.properties.Delegates
+import kotlin.random.Random
+
+open class FastByteArray64Benchmarks {
+
+    @State(Scope.Thread)
+    open class BenchmarkState {
+
+        private val random: Random = Random(0)
+        val array: FastByteArray64 = FastByteArray64(268435456)
+        var randomIndex by Delegates.notNull<Long>()
+
+        @Setup(Level.Invocation)
+        fun performSetup() {
+            randomIndex = random.nextLong(array.size)
+        }
+    }
 
     @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun sequentialAccessViaForEach() {
-
+    fun sequentialAccessViaForEach(state: BenchmarkState, blackhole: Blackhole) {
+        state.array.forEach { e -> blackhole.consume(e) }
     }
     @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun sequentialAccessViaIterator() {
-
+    fun sequentialAccessViaIterator(state: BenchmarkState, blackhole: Blackhole) {
+        state.array.iterator().forEachRemaining { e -> blackhole.consume(e) }
     }
     @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun randomAccessViaSubscript() {
-
+    fun randomAccessViaSubscript(state: BenchmarkState, blackhole: Blackhole) {
+        blackhole.consume(state.array[state.randomIndex])
     }
 }
