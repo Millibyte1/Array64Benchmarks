@@ -28,12 +28,14 @@ open class FastObjectArray64Benchmarks {
     fun sequentialAccessViaForEach(state: BenchmarkState, blackhole: Blackhole) {
         state.array.forEach { e -> blackhole.consume(e) }
     }
+
     @Benchmark @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun sequentialAccessViaIterator(state: BenchmarkState, blackhole: Blackhole) {
         state.array.iterator().forEachRemaining { e -> blackhole.consume(e) }
     }
+
     @Benchmark @BenchmarkMode(Mode.Throughput) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun randomAccessViaSubscript(state: BenchmarkState, blackhole: Blackhole) {
+    fun randomAccess(state: BenchmarkState, blackhole: Blackhole) {
         blackhole.consume(state.array[state.randomIndex])
     }
 }

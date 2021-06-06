@@ -39,16 +39,7 @@ open class FastUtilObjectArrayBenchmarks {
     }
 
     @Benchmark @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun sequentialAccessWithoutIndex(state: BenchmarkState, blackhole: Blackhole) {
-        for(segment in state.array.indices) {
-            val inner = state.array[segment]
-            for(displacement in inner.indices) {
-                blackhole.consume(inner[displacement])
-            }
-        }
-    }
-    @Benchmark @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun sequentialAccessWithIndex(state: BenchmarkState, blackhole: Blackhole) {
+    fun sequentialAccess(state: BenchmarkState, blackhole: Blackhole) {
         var index = 0L
         for(segment in state.array.indices) {
             val inner = state.array[segment]
@@ -59,6 +50,7 @@ open class FastUtilObjectArrayBenchmarks {
         }
         blackhole.consume(index)
     }
+
     @Benchmark @BenchmarkMode(Mode.Throughput) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun randomAccess(state: BenchmarkState, blackhole: Blackhole) {
         blackhole.consume(BigArrays.get(state.array, state.randomIndex))
