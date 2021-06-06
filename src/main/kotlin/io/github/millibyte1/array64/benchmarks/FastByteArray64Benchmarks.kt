@@ -24,15 +24,16 @@ open class FastByteArray64Benchmarks {
         }
     }
 
-    @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    @Benchmark @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun sequentialAccessViaForEach(state: BenchmarkState, blackhole: Blackhole) {
         state.array.forEach { e -> blackhole.consume(e) }
     }
-    @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
+
+    @Benchmark @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun sequentialAccessViaIterator(state: BenchmarkState, blackhole: Blackhole) {
         state.array.iterator().forEachRemaining { e -> blackhole.consume(e) }
     }
-    @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    @Benchmark @BenchmarkMode(Mode.Throughput) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun randomAccessViaSubscript(state: BenchmarkState, blackhole: Blackhole) {
         blackhole.consume(state.array[state.randomIndex])
     }

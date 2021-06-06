@@ -15,7 +15,7 @@ open class FastObjectArray64Benchmarks {
     open class BenchmarkState {
 
         private val random: Random = Random(0)
-        val array: FastArray64<Byte> = FastArray64(268435456) { 0 }
+        val array: FastArray64<Object> = FastArray64(268435456) { Object() }
         var randomIndex by Delegates.notNull<Long>()
 
         @Setup(Level.Invocation)
@@ -24,15 +24,15 @@ open class FastObjectArray64Benchmarks {
         }
     }
 
-    @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    @Benchmark @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun sequentialAccessViaForEach(state: BenchmarkState, blackhole: Blackhole) {
         state.array.forEach { e -> blackhole.consume(e) }
     }
-    @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    @Benchmark @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun sequentialAccessViaIterator(state: BenchmarkState, blackhole: Blackhole) {
         state.array.iterator().forEachRemaining { e -> blackhole.consume(e) }
     }
-    @Benchmark @BenchmarkMode(Mode.All) @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    @Benchmark @BenchmarkMode(Mode.Throughput) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun randomAccessViaSubscript(state: BenchmarkState, blackhole: Blackhole) {
         blackhole.consume(state.array[state.randomIndex])
     }
