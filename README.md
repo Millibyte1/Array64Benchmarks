@@ -35,9 +35,12 @@ These results are current as of Array64 v1.0.1.
 The raw console output from running the benchmarks is available in raw/benchmarks-output.txt.
 
 ## Interpretation
-For random array element access, the performance difference between Array64 and FastUtil is negligible.
+For the random access benchmarks, a single random element access counts as an operation.
+In this metric the performance difference between Array64 and FastUtil is negligible.
 
-For sequential array element access, there's around a 25% overhead to using Array64 over FastUtil.
+For the sequential access benchmarks, a single iteration over an array of 268,435,456 (2<sup>28</sup>) elements counts as an operation.
+In this metric, Array64 performs around 25% worse than FastUtil. However, either library is sufficiently fast for most
+use-cases; it takes ~1.3s to iterate over more than a quarter of a billion elements, compared to ~1.0s.
 
 ## Specs
 These results were obtained on a machine with a Ryzen 7 3700x CPU and 64GB of RAM.
